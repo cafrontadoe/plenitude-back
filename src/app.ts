@@ -2,13 +2,15 @@ import express, { Application } from 'express';
 import bodyParser from 'body-parser';
 import contactsRouter from './routes/contact.route';
 import connectDB from './config/database';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 class App {
   private app: Application;
 
   constructor() {
     this.app = express();
-    // Connect to MongoDB
     connectDB();
     this.config();
     this.routes();
@@ -20,7 +22,7 @@ class App {
   }
 
   private routes(): void {
-    this.app.use('/contacts', contactsRouter);
+    this.app.use('/api/contacts', contactsRouter);
   }
 
   public start(): void {
