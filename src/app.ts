@@ -24,7 +24,7 @@ class App {
   }
 
   private routes(): void {
-    this.app.use('/api/contacts', contactsRouter);
+    this.app.use('/api/v1/contacts', contactsRouter);
   }
 
   public start(): void {
