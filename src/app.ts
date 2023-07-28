@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import contactsRouter from './routes/contact.route';
 import connectDB from './config/database';
 import dotenv from 'dotenv';
+import compression from 'compression';
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ class App {
 
   constructor() {
     this.app = express();
+    this.app.use(compression()); // Enable gzip compression, reduce the responses size
     connectDB();
     this.config();
     this.routes();
