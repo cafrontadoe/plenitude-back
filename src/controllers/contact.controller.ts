@@ -11,6 +11,14 @@ class ContactsController {
     }
   }
 
+  public async getTest(req: Request, res: Response): Promise<void> {
+    try {
+      res.status(200).json("hey");
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+
 
 }
 
