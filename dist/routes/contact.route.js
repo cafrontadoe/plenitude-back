@@ -71,8 +71,15 @@ var ContactsController = class {
       try {
         const contacts = yield contact_model_default.find();
         res.status(200).json(contacts);
-        const responseSize = res.get("Content-Length");
-        console.log("Response size (uncompressed):", responseSize, "bytes");
+      } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    });
+  }
+  getTest(req, res) {
+    return __async(this, null, function* () {
+      try {
+        res.status(200).json("hey");
       } catch (error) {
         res.status(500).json({ error: "Internal server error" });
       }
@@ -85,4 +92,5 @@ var contact_controller_default = ContactsController;
 var contactsRouter = (0, import_express.Router)();
 var controller = new contact_controller_default();
 contactsRouter.get("/", controller.getAllContacts);
+contactsRouter.get("/test", controller.getTest);
 var contact_route_default = contactsRouter;
