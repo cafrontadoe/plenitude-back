@@ -134,3 +134,7 @@ dist
 !.env.project
 !.env.vault
 .env
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
