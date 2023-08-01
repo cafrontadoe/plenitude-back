@@ -24,6 +24,7 @@ class App {
   }
 
   private routes(): void {
+    this.app.use('/', (req, res) => { res.status(200).send()}); // aws health
     this.app.use('/api/v1/contacts', contactsRouter);
   }
 
