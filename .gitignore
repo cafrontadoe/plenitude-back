@@ -134,6 +134,8 @@ dist
 !.env.project
 !.env.vault
 .env
+.env.me
+.env.keys
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
