@@ -4,6 +4,8 @@ import contactsRouter from './routes/contact.route';
 import connectDB from './config/database';
 import dotenv from 'dotenv';
 import compression from 'compression';
+import loginRouter from './routes/login.route';
+import stripeRouter from './routes/stripe.route';
 
 dotenv.config();
 
@@ -24,8 +26,10 @@ class App {
   }
 
   private routes(): void {
-    this.app.use('/', (req, res) => { res.status(200).send()}); // aws health
     this.app.use('/api/v1/contacts', contactsRouter);
+    this.app.use('/api/v1/login', loginRouter);
+    this.app.use('/api/v1/stripe', stripeRouter);
+    this.app.use('/', (req, res) => { res.status(200).send()}); // aws health
   }
 
   public start(): void {

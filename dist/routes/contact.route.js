@@ -69,6 +69,7 @@ var ContactsController = class {
   getAllContacts(req, res) {
     return __async(this, null, function* () {
       try {
+        console.log("llega");
         const contacts = yield contact_model_default.find();
         res.status(200).json(contacts);
       } catch (error) {

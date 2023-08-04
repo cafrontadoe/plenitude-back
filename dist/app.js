@@ -53,7 +53,7 @@ __export(app_exports, {
   default: () => app_default
 });
 module.exports = __toCommonJS(app_exports);
-var import_express2 = __toESM(require("express"));
+var import_express3 = __toESM(require("express"));
 var import_body_parser = __toESM(require("body-parser"));
 
 // src/routes/contact.route.ts
@@ -83,6 +83,7 @@ var ContactsController = class {
   getAllContacts(req, res) {
     return __async(this, null, function* () {
       try {
+        console.log("llega");
         const contacts = yield contact_model_default.find();
         res.status(200).json(contacts);
       } catch (error) {
@@ -133,10 +134,36 @@ var database_default = connectDB;
 // src/app.ts
 var import_dotenv = __toESM(require("dotenv"));
 var import_compression = __toESM(require("compression"));
+
+// src/routes/login.route.ts
+var import_express2 = require("express");
+
+// src/controllers/login.controller.ts
+var LoginController = class {
+  login(req, res) {
+    return __async(this, null, function* () {
+      try {
+        console.log(req);
+        res.status(200).json();
+      } catch (error) {
+        res.status(500).json({ error: "Internal server error" });
+      }
+    });
+  }
+};
+var login_controller_default = LoginController;
+
+// src/routes/login.route.ts
+var loginRouter = (0, import_express2.Router)();
+var controller2 = new login_controller_default();
+loginRouter.post("/", controller2.login);
+var login_route_default = loginRouter;
+
+// src/app.ts
 import_dotenv.default.config();
 var App = class {
   constructor() {
-    this.app = (0, import_express2.default)();
+    this.app = (0, import_express3.default)();
     this.app.use((0, import_compression.default)());
     database_default();
     this.config();
@@ -147,7 +174,11 @@ var App = class {
     this.app.use(import_body_parser.default.urlencoded({ extended: false }));
   }
   routes() {
+    this.app.use("/", (req, res) => {
+      res.status(200).send();
+    });
     this.app.use("/api/v1/contacts", contact_route_default);
+    this.app.use("/api/v1/login", login_route_default);
   }
   start() {
     const port = process.env.PORT || 3e3;
