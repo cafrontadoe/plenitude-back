@@ -14,8 +14,8 @@ class App {
 
   constructor() {
     this.app = express();
-    this.app.use(compression()); // Enable gzip compression, reduce the responses size
-    connectDB();
+    // this.app.use(compression()); // Enable gzip compression, reduce the responses size
+    // connectDB();
     this.config();
     this.routes();
   }
@@ -26,9 +26,9 @@ class App {
   }
 
   private routes(): void {
-    this.app.use('/api/v1/contacts', contactsRouter);
-    this.app.use('/api/v1/login', loginRouter);
-    this.app.use('/api/v1/stripe', stripeRouter);
+    // this.app.use('/api/v1/contacts', contactsRouter);
+    // this.app.use('/api/v1/login', loginRouter);
+    // this.app.use('/api/v1/stripe', stripeRouter);
     this.app.use('/', (req, res) => { res.status(200).send()}); // aws health
   }
 
