@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.7.0",
     "mongoose": "^7.3.2",
+    "stripe": "^12.16.0",
     "tsup": "^7.1.0"
   },
   "devDependencies": {
