@@ -21,9 +21,12 @@ const PaymentSchema = new Schema({
     type: Date,
     default: new Date()
   },
+  currency: {
+    type: String
+  },
   status: {
     type: String,
-    enum: ['completed', 'failed', 'pending'],
+    enum: ['completed', 'failed', 'pending', 'expired'],
     default: 'pending'
   }
 });

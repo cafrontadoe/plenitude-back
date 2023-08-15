@@ -1,13 +1,18 @@
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import PaymentModel from '../models/payment.model';
 import { PaymentStatus } from '../models/payment-status.enum';
-const stripe = new Stripe('sk_test_51NZ2JSHKFQRDDHcmpDv7iWS9mUvse3Hcbb2bDrMJSMOrOyo5xCNiZtV7tK17UiWdOwIzoQwfHhhTgwHqtnOyKWP500SKrCQk8Z', {
+const stripe = new Stripe(process.env.STRIPE_KEY || '', {
   apiVersion: '2022-11-15'
 });
-const endpointSecret = "whsec_gp73lZRMwUHJIlFeeg2N7R99CBonEdS8";
-
-
+const endpointSecret = process.env.WEBHOOK_SECRET || '';
+const urlSuccess = process.env.URL_SUCCESS || 'http://localhost:4200/success_payment';
+const urlCancel = process.env.URL_CANCEL || 'http://localhost:4200/cancel_payment';
+const stripePriceId = process.env.PRICE_ID || '';
 
 class PaymentsController {
 
@@ -16,13 +21,13 @@ class PaymentsController {
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
-            price: 'price_1NZ2jQHKFQRDDHcmwFVgRov4',
+            price: stripePriceId,
             quantity: 1
           }
         ],
         mode: 'payment',
-        success_url: 'http://localhost:4200/success_payment',
-        cancel_url: 'http://localhost:4200/cancel_payment'
+        success_url: urlSuccess,
+        cancel_url: urlCancel
       });
 
       res.status(200).json({
@@ -48,10 +53,18 @@ class PaymentsController {
       return;
     }
 
+    const paymentData = event.data.object as any;
     switch (event.type) {
       case 'checkout.session.async_payment_failed':
-        const checkoutSessionAsyncPaymentFailed = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_failed
+        await PaymentModel.create({
+          stripe_id: paymentData.id,
+          name: paymentData.customer_details.name,
+          email: paymentData.customer_details.email,
+          amount: paymentData.amount_total,
+          currency: paymentData.currency,
+          status: PaymentStatus.FAILED
+        });
         break;
       case 'checkout.session.async_payment_succeeded':
         const checkoutSessionAsyncPaymentSucceeded = event.data.object;
@@ -59,22 +72,27 @@ class PaymentsController {
         console.log(checkoutSessionAsyncPaymentSucceeded);
         break;
       case 'checkout.session.completed':
-        const data = event.data.object as any;
         //console.log(checkoutSessionCompleted);
         //PaymentsController.createPayment(PaymentStatus.COMPLETED, checkoutSessionCompleted);
         // Then define and call a function to handle the event checkout.session.completed
-        console.log(data);
         await PaymentModel.create({
-          stripe_id: data.id,
-          name: data.customer_details.name,
-          email: data.customer_details.email,
-          amount: data.amount_total,
+          stripe_id: paymentData.id,
+          name: paymentData.customer_details.name,
+          email: paymentData.customer_details.email,
+          amount: paymentData.amount_total,
+          currency: paymentData.currency,
           status: PaymentStatus.COMPLETED
         });
         break;
       case 'checkout.session.expired':
-        const checkoutSessionExpired = event.data.object;
-        // Then define and call a function to handle the event checkout.session.expired
+        await PaymentModel.create({
+          stripe_id: paymentData.id,
+          name: paymentData.customer_details.name,
+          email: paymentData.customer_details.email,
+          amount: paymentData.amount_total,
+          currency: paymentData.currency,
+          status: PaymentStatus.EXPIRED
+        });
         break;
       // ... handle other event types
       default:
