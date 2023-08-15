@@ -4,6 +4,7 @@ import contactsRouter from './routes/contact.route';
 import paymentsRouter from './routes/payments.route';
 import connectDB from './config/database';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import compression from 'compression';
 import loginRouter from './routes/login.route';
 
@@ -14,6 +15,7 @@ class App {
 
   constructor() {
     this.app = express();
+    this.app.use(cors())
     this.app.use(compression()); // Enable gzip compression, reduce the responses size
     connectDB();
     this.config();
