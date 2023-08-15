@@ -10,8 +10,8 @@ const stripe = new Stripe(process.env.STRIPE_KEY || '', {
   apiVersion: '2022-11-15'
 });
 const endpointSecret = process.env.WEBHOOK_SECRET || '';
-const urlSuccess = process.env.URL_SUCCESS || 'http://localhost:4200/success_payment';
-const urlCancel = process.env.URL_CANCEL || 'http://localhost:4200/cancel_payment';
+const urlSuccess = process.env.URL_SUCCESS || 'http://localhost:4200/public/success-donation';
+const urlCancel = process.env.URL_CANCEL || 'http://localhost:4200/public/donations';
 const stripePriceId = process.env.PRICE_ID || '';
 
 class PaymentsController {
