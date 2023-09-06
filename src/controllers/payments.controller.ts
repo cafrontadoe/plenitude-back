@@ -18,6 +18,7 @@ class PaymentsController {
 
   public async createCheckoutSession(req: Request, res: Response): Promise<void> {
     try {
+      console.log('process.env.STRIPE_KEY: ',process.env.STRIPE_KEY);
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
