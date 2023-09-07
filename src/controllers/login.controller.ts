@@ -28,7 +28,6 @@ class LoginController {
     const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(secretKey, 'hex'), Buffer.from(iv, 'hex'));
     let decrypted = decipher.update(privateMessage, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
-      console.log(decrypted);
     if (decrypted === id) {
       const jwtSecret = process.env.JWT_SECRET ?? 'secret';
       const expiresIn = process.env.JWT_EXPIRES_IN ?? '30m';
@@ -37,14 +36,14 @@ class LoginController {
       const expireCookieNumber: number =  (1 * expireCookieTime) * 60 * 1000;
       const cookieOption = {
         expires: new Date(Date.now() + expireCookieNumber),
-       // secure: true,
+        secure: true,
         httpOnly: true
       };
       res.cookie('jwt', token, cookieOption);
       res.status(200).json({
         status: 'sucess',
         message: 'Login successful',
-        token,
+        // token,
 
       });
     } else {
@@ -75,6 +74,7 @@ export const protectedMiddleware = async(req: any, res: any, next: any) => {
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
      token = req.headers.authorization.split(' ')[1];
   } else if (req.cookies.jwt) {
+    console.log('req.cookies', req.cookies);
     token = req.cookies.jwt;
   }
   console.log(token);
