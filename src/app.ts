@@ -27,7 +27,7 @@ class App {
     // set security headers
     this.app.use(helmet());
     const corsOptions = {
-      origin: 'https://plenitude-sitever.vercel.app/', // Replace with your Angular app's URL
+      origin: 'https://plenitude-sitever.vercel.app', // Replace with your Angular app's URL
       credentials: true, // Enable cookie sharing
     };
     this.app.use(cors(corsOptions))
