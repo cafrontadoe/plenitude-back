@@ -37,7 +37,8 @@ class LoginController {
       const cookieOption = {
         expires: new Date(Date.now() + expireCookieNumber),
         secure: true,
-        httpOnly: true
+        httpOnly: true,
+        path: '/'
       };
       res.cookie('jwt', token, cookieOption);
       res.status(200).json({
