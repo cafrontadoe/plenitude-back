@@ -19,6 +19,21 @@ class ContactsController {
     }
   }
 
+  public async createContact(req: Request, res: Response): Promise<void> {
+    try {
+      const data = req.body;
+      console.log('data', data);
+      const savedContact = await Contact.create({
+        name: data.name,
+        message: data.message,
+        email: data.email
+      });
+      res.status(200).json(savedContact);
+    } catch (error) {
+      res.status(500).json({ error: 'Error al crear el contacto' });
+    }
+  }
+
 
 }
 
