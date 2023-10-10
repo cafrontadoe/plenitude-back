@@ -6,6 +6,6 @@ const controller = new ContactsController();
 
 contactsRouter.get('/', controller.getAllContacts);
 contactsRouter.get('/test', controller.getTest);
-// contactsRouter.post('/', controller.createContact);
+contactsRouter.post('/', controller.createContact);
 
 export default contactsRouter;
