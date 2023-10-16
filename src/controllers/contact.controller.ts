@@ -22,7 +22,6 @@ class ContactsController {
   public async createContact(req: Request, res: Response): Promise<void> {
     try {
       const data = req.body;
-      console.log('data', data);
       const savedContact = await Contact.create({
         name: data.name,
         message: data.message,

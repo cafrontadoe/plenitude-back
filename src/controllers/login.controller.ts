@@ -66,13 +66,11 @@ export const protectedMiddleware = async(req: any, res: any, next: any) => {
   if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
      token = req.headers.authorization.split(' ')[1];
   }
-  console.log(token);
   if (!token) {
     return next(new AppError('You are no logged to get access', 401));
   }
   const jwtSecret = process.env.JWT_SECRET ?? '';
   const decode = jwt.verify(token, jwtSecret);
-  console.log(decode);
   next();
 } catch (error) {
   res.status(401).json({ error: error });
