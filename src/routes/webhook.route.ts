@@ -2,9 +2,9 @@ import { Router, raw } from 'express';
 
 import PaymentsController from '../controllers/payments.controller';
 
-const paymentsRouter = Router();
+const webhookRouter = Router();
 const controller = new PaymentsController();
 
-paymentsRouter.post('/webhook', raw({ type: 'application/json' }), controller.webhook);
+webhookRouter.post('/webhook', raw({ type: 'application/json' }), controller.webhook);
 
-export default paymentsRouter;
+export default webhookRouter;
