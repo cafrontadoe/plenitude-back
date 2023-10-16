@@ -14,6 +14,7 @@ import ExpressMongoSanitize from 'express-mongo-sanitize';
 import xss from 'xss';
 import hpp from 'hpp';
 import cookieParser from 'cookie-parser';
+import webhookRouter from './routes/webhook.route';
 
 
 
@@ -78,6 +79,7 @@ class App {
   private routes(): void {
     this.app.use('/api/v1/contacts', protectedMiddleware, contactsRouter);
     this.app.use('/api/v1/payments', protectedMiddleware,  paymentsRouter);
+    this.app.use('/api/v1/webhook',  webhookRouter);
     this.app.use('/api/v1/login', loginRouter);
     // this.app.use('/', (req, res) => { res.status(200).send() }); // aws health
   

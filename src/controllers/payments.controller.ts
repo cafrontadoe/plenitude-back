@@ -71,7 +71,7 @@ class PaymentsController {
       case 'checkout.session.async_payment_succeeded':
         const checkoutSessionAsyncPaymentSucceeded = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_succeeded
-        console.log(checkoutSessionAsyncPaymentSucceeded);
+        console.log('checkoutSessionAsyncPaymentSucceeded', checkoutSessionAsyncPaymentSucceeded);
         break;
       case 'checkout.session.completed':
         console.log('checkoutSessionCompleted');
