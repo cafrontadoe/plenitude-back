@@ -43,6 +43,7 @@ class PaymentsController {
   }
 
   public async webhook(request: any, response: Response): Promise<void> {
+    console.log('--------------------WEBHOOK--------------------------------- ');
     const sig = request.headers['stripe-signature'] as any;
     let event: Stripe.Event;
 
@@ -73,7 +74,7 @@ class PaymentsController {
         console.log(checkoutSessionAsyncPaymentSucceeded);
         break;
       case 'checkout.session.completed':
-        //console.log(checkoutSessionCompleted);
+        console.log('checkoutSessionCompleted');
         //PaymentsController.createPayment(PaymentStatus.COMPLETED, checkoutSessionCompleted);
         // Then define and call a function to handle the event checkout.session.completed
         await PaymentModel.create({
