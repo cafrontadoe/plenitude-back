@@ -32,24 +32,22 @@ class App {
       credentials: true, // Enable cookie sharing
     };
     this.app.use(cors(corsOptions))
-    this.app.use(express.json({ limit: '10kb' }));
-    this.app.use(cookieParser())
+    // this.app.use(express.json({ limit: '10kb' }));
+    // this.app.use(cookieParser())
     // improve performance
     this.app.use(compression()); // Enable gzi  p compression, reduce the responses size
     // Data sanitization against NoSQL query injection
-    this.app.use(ExpressMongoSanitize());
-    // Data sanitization against XSS
-    this.app.use(bodyParser.json());
+    // this.app.use(ExpressMongoSanitize());
     // Middleware to sanitize user input to prevent XSS attacks 
-    this.app.use((req, res, next) => {
-      if (req.body) {
-        // Sanitize request body
-        req.body = sanitizeObject(req.body);
-      }
-    next();
-    });
+    // this.app.use((req, res, next) => {
+    //   if (req.body) {
+    //     // Sanitize request body
+    //     req.body = sanitizeObject(req.body);
+    //   }
+    // next();
+    // });
     // http prevent parameter polution
-    this.app.use(hpp());
+    // this.app.use(hpp());
     // test middleware
     // this.app.use((req: any, res, next) => {
     //   req.requestTime = new Date().toISOString();
@@ -64,11 +62,14 @@ class App {
   }
 
   private config(): void {
+    console.log('config');
     this.app.use(bodyParser.json({
       verify: function (req: any, res, buf) {
         var url = req.originalUrl;
+        console.log('rls',url);
         if (url.includes('/webhook')) {
-          req.rawBody = buf.toString()
+          console.log('buf.toString()', buf.toString());
+          req.rawBody = buf.toString();
         }
       }
     }));
