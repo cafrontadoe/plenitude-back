@@ -62,13 +62,10 @@ class App {
   }
 
   private config(): void {
-    console.log('config');
     this.app.use(bodyParser.json({
       verify: function (req: any, res, buf) {
         var url = req.originalUrl;
-        console.log('rls',url);
         if (url.includes('/webhook')) {
-          console.log('buf.toString()', buf.toString());
           req.rawBody = buf.toString();
         }
       }
