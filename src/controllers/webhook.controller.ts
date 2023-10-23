@@ -14,16 +14,12 @@ const endpointSecret = process.env.WEBHOOK_SECRET || '';
 class WebhookController {
 
   public async webhook(request: any, response: Response): Promise<void> {
-    console.log('--------------------WEBHOOK--------------------------------- ');
     const sig = request.headers['stripe-signature'] as any;
-    console.log('sig', sig);
     let event: Stripe.Event;
 
     try {
-      console.log('request.rawBody', request.rawBody);
       event = stripe.webhooks.constructEvent(request.rawBody, sig, endpointSecret);
     } catch (err: any) {
-      console.log(err);
       response.status(400).send(`Webhook Error: ${err.message}`);
       return;
     }
@@ -44,10 +40,10 @@ class WebhookController {
       case 'checkout.session.async_payment_succeeded':
         const checkoutSessionAsyncPaymentSucceeded = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_succeeded
-        console.log('checkoutSessionAsyncPaymentSucceeded', checkoutSessionAsyncPaymentSucceeded);
+        // console.log('checkoutSessionAsyncPaymentSucceeded');
         break;
       case 'checkout.session.completed':
-        console.log('checkoutSessionCompleted');
+        // console.log('checkoutSessionCompleted');
         //PaymentsController.createPayment(PaymentStatus.COMPLETED, checkoutSessionCompleted);
         // Then define and call a function to handle the event checkout.session.completed
         await PaymentModel.create({
