@@ -27,8 +27,10 @@ class App {
     this.app = express();
     // set security headers
     this.app.use(helmet());
+    const front = process.env.FRONT_URL ?? 'https://plenitudefunchal.com';
+
     const corsOptions = {
-      origin: 'https://plenitude-sitever.vercel.app', // Replace with your Angular app's URL
+      origin: front, // Replace with your Angular app's URL
       credentials: true, // Enable cookie sharing
     };
     this.app.use(cors(corsOptions))
