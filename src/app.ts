@@ -35,7 +35,7 @@ class App {
     };
     this.app.use(cors(corsOptions))
     // this.app.use(express.json({ limit: '10kb' }));
-    // this.app.use(cookieParser())
+    this.app.use(cookieParser())
     // improve performance
     this.app.use(compression()); // Enable gzi  p compression, reduce the responses size
     // Data sanitization against NoSQL query injection
