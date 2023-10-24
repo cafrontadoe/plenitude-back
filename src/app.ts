@@ -29,12 +29,11 @@ class App {
     this.app.use(helmet());
     // const front = process.env.FRONT_URL ?? 'https://plenitudefunchal.com';
 
-    // const corsOptions = {
-    //   origin: front, // Replace with your Angular app's URL
-    //   credentials: true, // Enable cookie sharing
-    // };
-    // this.app.use(cors(corsOptions))
-    this.app.use(cors())
+    const corsOptions = {
+      origin: 'https://plenitudefunchal.com', // Replace with your Angular app's URL
+      credentials: true, // Enable cookie sharing
+    };
+    this.app.use(cors(corsOptions))
     this.app.use(express.json({ limit: '10kb' }));
     this.app.use(cookieParser())
     // improve performance
