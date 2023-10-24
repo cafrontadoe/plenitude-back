@@ -34,28 +34,28 @@ class App {
       credentials: true, // Enable cookie sharing
     };
     this.app.use(cors(corsOptions))
-    // this.app.use(express.json({ limit: '10kb' }));
+    this.app.use(express.json({ limit: '10kb' }));
     this.app.use(cookieParser())
     // improve performance
     this.app.use(compression()); // Enable gzi  p compression, reduce the responses size
     // Data sanitization against NoSQL query injection
-    // this.app.use(ExpressMongoSanitize());
+    this.app.use(ExpressMongoSanitize());
     // Middleware to sanitize user input to prevent XSS attacks 
-    // this.app.use((req, res, next) => {
-    //   if (req.body) {
-    //     // Sanitize request body
-    //     req.body = sanitizeObject(req.body);
-    //   }
-    // next();
-    // });
+    this.app.use((req, res, next) => {
+      if (req.body) {
+        // Sanitize request body
+        req.body = sanitizeObject(req.body);
+      }
+    next();
+    });
     // http prevent parameter polution
-    // this.app.use(hpp());
+    this.app.use(hpp());
     // test middleware
-    // this.app.use((req: any, res, next) => {
-    //   req.requestTime = new Date().toISOString();
-    //   console.log(req.cookies);
-    //   next();
-    // });
+    this.app.use((req: any, res, next) => {
+      req.requestTime = new Date().toISOString();
+      console.log(req.cookies);
+      next();
+    });
     connectDB();
     this.config();
     this.routes();
